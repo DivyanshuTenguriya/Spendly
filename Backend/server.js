@@ -10,10 +10,17 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 
 const app = express();
 
-app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175",
+      "http://localhost:5176",
+    ],
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -29,7 +36,7 @@ app.use(
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24,
     },
-  })
+  }),
 );
 
 // Debug middleware to log all requests
@@ -63,7 +70,8 @@ app.get("/test-route", (req, res) => {
   res.json({ message: "Server is running", routes: "loaded" });
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/spendly")
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("DB connected"))
   .catch(console.log);
 
