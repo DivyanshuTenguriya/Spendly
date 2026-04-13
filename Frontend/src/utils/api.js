@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://spendly-backend.onrender.com/api",
-  withCredentials: true,
+  baseURL: "https://spendly-backend-xzgc.onrender.com/api", // ✅ FIXED
+  // ❌ REMOVED withCredentials
 });
 
 // Auth APIs
@@ -18,22 +18,27 @@ export const updateUserInfo = (userId, data) =>
 // Expense APIs - CRUD
 export const createExpense = (userId, data) =>
   API.post("/expenses/create", { userId, ...data });
+
 export const getExpenses = (userId, filters = {}) =>
   API.get(`/expenses/${userId}`, { params: filters });
+
 export const getExpenseById = (expenseId) =>
   API.get(`/expenses/expense/${expenseId}`);
+
 export const updateExpense = (expenseId, data) =>
   API.put(`/expenses/${expenseId}`, data);
+
 export const deleteExpense = (expenseId) =>
   API.delete(`/expenses/${expenseId}`);
 
-// Expense APIs - Summary & Analytics
+// Summary
 export const getExpenseSummary = (userId, filters = {}) =>
   API.get(`/expenses/${userId}/summary`, { params: filters });
 
-// Expense APIs - Import/Export
+// Import / Export
 export const importExpenses = (userId, expenses) =>
   API.post(`/expenses/${userId}/import`, { expenses });
+
 export const exportExpenses = (userId, filters = {}) =>
   API.get(`/expenses/${userId}/export`, {
     params: filters,

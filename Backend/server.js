@@ -10,6 +10,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 
 const app = express();
 
+// ✅ FIXED CORS
 app.use(
   cors({
     origin: [
@@ -17,6 +18,7 @@ app.use(
       "http://localhost:5174",
       "http://localhost:5175",
       "http://localhost:5176",
+      "https://spendly-nu-ten.vercel.app", // ✅ ADD THIS
     ],
     credentials: true,
   }),
@@ -32,49 +34,38 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: false, // OK for now
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24,
     },
   }),
 );
 
-// Debug middleware to log all requests
+// Debug middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   next();
 });
 
-console.log("Mounting routes...");
+// Routes
 app.use("/api/auth", authRoutes);
-console.log("Auth routes mounted");
 app.use("/api/userInfo", userInfoRoutes);
-console.log("UserInfo routes mounted");
 app.use("/api/expenses", expenseRoutes);
-console.log("Expense routes mounted");
 app.use("/api/help", helpRoutes);
-console.log("Help routes mounted");
 app.use("/api/notifications", notificationRoutes);
-console.log("Notification routes mounted");
 
-// Debug logging
-console.log("Routes registered:");
-console.log("  /api/auth");
-console.log("  /api/userInfo");
-console.log("  /api/expenses");
-console.log("  /api/help");
-console.log("  /api/notifications");
-
-// Test route to verify userInfo routes are working
+// Test route
 app.get("/test-route", (req, res) => {
   res.json({ message: "Server is running", routes: "loaded" });
 });
 
+// MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("DB connected"))
   .catch(console.log);
 
+// Start server
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
