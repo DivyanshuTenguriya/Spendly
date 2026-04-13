@@ -34,13 +34,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // OK for now
-      sameSite: "lax",
+      secure: true, // ✅ REQUIRED for HTTPS (Vercel)
+      sameSite: "none", // ✅ REQUIRED for cross-origin
       maxAge: 1000 * 60 * 60 * 24,
     },
   }),
 );
-
 // Debug middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);

@@ -22,7 +22,7 @@ const Signup = ({ onToggle, onSuccess }) => {
     setLoading(true);
     try {
       const response = await registerUser({
-        name: form.fullName, // ✅ FIXED HERE
+        fullName: form.fullName,
         email: form.email,
         password: form.password,
       });

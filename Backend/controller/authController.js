@@ -3,10 +3,13 @@ import { Auth } from "../models/authModel.js";
 import { UserInfo } from "../models/userInfoModel.js";
 
 export const register = async (req, res) => {
-  const { email, password, fullName } = req.body;
+  const { email, password, fullName, name } = req.body;
+  const userName = fullName || name;
 
-  if (!email || !password || !fullName) {
-    return res.status(400).json({ msg: "Email, password, and name are required" });
+  if (!email || !password || !userName) {
+    return res
+      .status(400)
+      .json({ msg: "Email, password, and name are required" });
   }
 
   const exist = await Auth.findOne({ email });
@@ -24,9 +27,9 @@ export const register = async (req, res) => {
   // Auto-create UserInfo
   const userInfo = await UserInfo.create({
     userId: user._id,
-    fullName: fullName,
-    phone: '',
-    currency: 'INR – Indian Rupee',
+    fullName: userName,
+    phone: "",
+    currency: "INR – Indian Rupee",
     monthlyIncome: 0,
     monthlyExpenseBudget: 0,
     budgets: [],
