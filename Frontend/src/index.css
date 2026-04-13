@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    /* Light Theme - Inspired by Notion, Stripe, Linear */
+    /* Background Colors */
+    --bg-primary: #fafbfc; /* Very soft off-white */
+    --bg-secondary: #f1f3f4; /* Subtle gray for sidebar */
+    --bg-tertiary: #ffffff; /* Clean white for cards */
+    --bg-hover: #e8eaed; /* Soft hover state */
+
+    /* Text Colors */
+    --text-primary: #000000; /* Pure black for primary text in light theme */
+    --text-secondary: #334155; /* Dark slate for secondary */
+    --text-muted: #64748b; /* Medium slate for muted */
+    --text-on-accent: #ffffff; /* White text on accent buttons */
+
+    /* Border Colors */
+    --border-color: #e2e8f0; /* Soft gray border */
+    --border-hover: #cbd5e1; /* Slightly darker on hover */
+
+    /* Accent/Brand Color */
+    --accent-primary: #3b82f6; /* Soft blue like Stripe */
+    --accent-hover: #2563eb; /* Darker blue on hover */
+    --accent-active: #1d4ed8; /* Even darker on active */
+    --accent-focus: rgba(59, 130, 246, 0.1); /* Subtle focus ring */
+
+    /* Semantic Colors */
+    --success: #10b981; /* Soft emerald green */
+    --success-hover: #059669;
+    --warning: #f59e0b; /* Soft amber */
+    --warning-hover: #d97706;
+    --danger: #ef4444; /* Soft red */
+    --danger-hover: #dc2626;
+    --info: #06b6d4; /* Soft cyan */
+    --info-hover: #0891b2;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 250ms ease-in-out;
+  }
+
+  .dark {
+    /* Dark Theme - Premium fintech dark mode */
+    /* Background Colors */
+    --bg-primary: #0f172a; /* Deep slate background */
+    --bg-secondary: #1e293b; /* Darker slate for sidebar */
+    --bg-tertiary: #334155; /* Medium slate for cards */
+    --bg-hover: #475569; /* Subtle hover state */
+
+    /* Text Colors */
+    --text-primary: #f8fafc; /* Off-white for primary text */
+    --text-secondary: #cbd5e1; /* Light gray for secondary */
+    --text-muted: #94a3b8; /* Medium gray for muted */
+    --text-on-accent: #ffffff; /* White text on accent buttons */
+
+    /* Border Colors */
+    --border-color: #334155; /* Dark slate border */
+    --border-hover: #475569; /* Slightly lighter on hover */
+
+    /* Accent/Brand Color */
+    --accent-primary: #60a5fa; /* Softer blue for dark mode */
+    --accent-hover: #3b82f6; /* Standard blue on hover */
+    --accent-active: #2563eb; /* Darker on active */
+    --accent-focus: rgba(96, 165, 250, 0.1); /* Subtle focus ring */
+
+    /* Semantic Colors */
+    --success: #34d399; /* Bright green for dark */
+    --success-hover: #10b981;
+    --warning: #fbbf24; /* Bright amber */
+    --warning-hover: #f59e0b;
+    --danger: #f87171; /* Bright red */
+    --danger-hover: #ef4444;
+    --info: #22d3ee; /* Bright cyan */
+    --info-hover: #06b6d4;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  }
+
+  html {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    background-color: var(--bg-primary);
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply font-body antialiased transition-colors duration-300;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    background-image: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  .dark body {
+    background-image: radial-gradient(ellipse at 20% 20%, rgba(96, 165, 250, 0.06) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 80%, rgba(52, 211, 153, 0.06) 0%, transparent 60%);
+    color-scheme: dark;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--bg-secondary);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    @apply rounded-2xl;
+    border-width: 1px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-normal), border-color var(--transition-fast);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-hover);
+  }
+
+  .card:focus-within {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-primary);
+  }
+
+  .btn-primary {
+    background-color: var(--accent-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-primary);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .btn-primary:active {
+    background-color: var(--accent-active);
+    border-color: var(--accent-active);
+  }
+
+  .btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-focus);
+  }
+
+  .text-success {
+    color: var(--success);
+  }
+
+  .text-warning {
+    color: var(--warning);
+  }
+
+  .text-danger {
+    color: var(--danger);
+  }
+
+  .text-info {
+    color: var(--info);
+  }
+
+  .bg-success {
+    background-color: var(--success);
+  }
+
+  .bg-warning {
+    background-color: var(--warning);
+  }
+
+  .bg-danger {
+    background-color: var(--danger);
+  }
+
+  .bg-info {
+    background-color: var(--info);
+  }
+
+  /* Example Card Component Usage:
+  <div class="card p-6">
+    <h3 class="text-lg font-semibold text-primary mb-2">Dashboard Card</h3>
+    <p class="text-secondary mb-4">This is a sample card with premium styling.</p>
+    <button class="btn-primary px-4 py-2 rounded-lg">Action</button>
+  </div>
+  */
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium;
+    background-color: var(--slate-card);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+  }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+}
