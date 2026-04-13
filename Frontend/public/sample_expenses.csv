@@ -1,0 +1,31 @@
+date,description,category,type,amount,tag,paymentMethod,notes
+2026-04-01,Groceries shopping,Food,expense,85.50,Personal,card,Weekly grocery shopping
+2026-04-02,Restaurant dinner,Food,expense,45.99,Personal,online,Dinner with friends
+2026-04-03,Gas fill-up,Transport,expense,50.00,Personal,card,Tank fill-up
+2026-04-04,Movie tickets,Entertainment,expense,25.00,Personal,cash,Movie night
+2026-04-05,Electricity bill,Utilities,expense,120.00,Monthly,online,Monthly utility
+2026-04-06,Gym membership,Healthcare,expense,60.00,Subscription,card,Monthly gym fee
+2026-04-07,Coffee shop,Food,expense,12.50,Personal,cash,Morning coffee
+2026-04-08,Uber ride,Transport,expense,18.75,Personal,online,Travel to office
+2026-04-09,Medicine,Healthcare,expense,35.00,Personal,pharmacy,Prescription medicine
+2026-04-10,Book purchase,Entertainment,expense,15.99,Personal,online,Self-help book
+2026-04-11,Online shopping,Shopping,expense,95.00,Personal,online,Clothes purchase
+2026-04-12,Office lunch,Food,expense,22.00,Work,card,Lunch expense
+2026-04-13,Phone bill,Utilities,expense,45.00,Monthly,online,Mobile recharge
+2026-04-14,Parking fee,Transport,expense,10.00,Personal,cash,Parking charge
+2026-04-15,Salon service,Healthcare,expense,40.00,Personal,cash,Haircut appointment
+2026-04-16,Snacks,Food,expense,8.75,Personal,cash,Quick snack
+2026-04-17,Concert tickets,Entertainment,expense,55.00,Personal,card,Live music event
+2026-04-18,Car maintenance,Transport,expense,85.00,Personal,card,Vehicle service
+2026-04-19,Gaming console game,Entertainment,expense,29.99,Personal,online,New game purchase
+2026-04-20,Meal delivery,Food,expense,32.00,Personal,online,Food delivery service
+2026-04-21,Insurance,Utilities,expense,75.00,Monthly,online,Monthly insurance
+2026-04-22,Vacation flight,Transport,expense,350.00,Travel,online,Flight booking
+2026-04-23,Hotel stay,Utilities,expense,200.00,Travel,online,Accommodation
+2026-04-24,Restaurant lunch,Food,expense,38.50,Travel,card,Meal during vacation
+2026-04-25,Sports equipment,Healthcare,expense,125.00,Personal,card,Fitness gear
+2026-04-26,Laundry service,Shopping,expense,20.00,Personal,cash,Dry cleaning
+2026-04-27,Coffee subscription,Utilities,expense,15.00,Subscription,online,Monthly coffee plan
+2026-04-28,Dinner party groceries,Food,expense,95.00,Personal,card,Entertainment groceries
+2026-04-29,Salary,Food,income,3500.00,Work,online,Monthly salary
+2026-04-30,Freelance project,Entertainment,income,500.00,Work,online,Side project payment
