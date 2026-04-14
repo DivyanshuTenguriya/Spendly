@@ -210,16 +210,19 @@ export default function Settings({
     }
   };
 
-  const handleLogout = () => {
-    // Clear all user data from localStorage
+  const handleLogout = (e) => {
+    e.preventDefault();
+    console.log("Logging out...");
+
+    // Clear authentication data only
+    localStorage.removeItem("user");
     localStorage.removeItem("userId");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userName");
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("theme");
 
-    // Redirect to login page
-    window.location.href = "/";
+    // Notify the root app to switch to the login view without reloading
+    window.dispatchEvent(new Event("app-logout"));
   };
 
   return (
@@ -368,6 +371,7 @@ export default function Settings({
                 your data.
               </p>
               <button
+                type="button"
                 onClick={handleLogout}
                 className="px-5 py-2 rounded-xl text-sm font-medium self-start transition-all"
                 style={{

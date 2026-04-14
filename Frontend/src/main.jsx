@@ -17,6 +17,16 @@ function Root() {
     return saved ? JSON.parse(saved) : { fullName: "User" };
   });
 
+  useEffect(() => {
+    const handleLogout = () => {
+      setUserInfo({ fullName: "User" });
+      setView("login");
+    };
+
+    window.addEventListener("app-logout", handleLogout);
+    return () => window.removeEventListener("app-logout", handleLogout);
+  }, []);
+
   if (view === "app") {
     return <App userInfo={userInfo} setUserInfo={setUserInfo} />;
   }
