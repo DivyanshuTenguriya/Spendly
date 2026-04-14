@@ -8,7 +8,7 @@ import {
   getStoredUserId,
   normalizeExpensesResponse,
 } from "../utils/helpers";
-import { getUserInfo, getExpenses } from "../utils/api";
+import API, { getUserInfo, getExpenses } from "../utils/api";
 
 function BudgetCard({ goal }) {
   const meta = getCategoryMeta(categories, goal.category);
