@@ -6,9 +6,9 @@ export const formatCurrency = (amount, compact = false) => {
   if (compact && abs >= 1000) {
     return `₹${(abs / 1000).toFixed(1)}k`;
   }
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
@@ -16,11 +16,28 @@ export const formatCurrency = (amount, compact = false) => {
 
 export const formatDate = (dateStr) => {
   const d = new Date(dateStr);
-  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+export const getStoredUserId = () => {
+  try {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    return storedUser?._id || localStorage.getItem("userId");
+  } catch (error) {
+    return localStorage.getItem("userId");
+  }
 };
 
 export const getCategoryMeta = (categories, label) =>
-  categories.find(c => c.label === label) ?? { label: 'Other', color: '#8090a8', icon: '📦' };
+  categories.find((c) => c.label === label) ?? {
+    label: "Other",
+    color: "#8090a8",
+    icon: "📦",
+  };
 
 export const pct = (part, total) =>
   total === 0 ? 0 : Math.round((part / total) * 100);

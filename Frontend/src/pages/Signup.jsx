@@ -28,7 +28,8 @@ const Signup = ({ onToggle, onSuccess }) => {
       });
 
       if (response.data.user) {
-        // Save userId and user info to localStorage
+        // Save user object and ID to localStorage
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("userId", response.data.user._id);
         localStorage.setItem("userEmail", response.data.user.email);
         localStorage.setItem("userName", form.fullName);

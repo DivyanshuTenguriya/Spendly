@@ -6,7 +6,8 @@ import CategoryChart from "../components/CategoryChart";
 import WeeklyTrendChart from "../components/WeeklyTrendChart";
 import BudgetProgress from "../components/BudgetProgress";
 import RecentTransactions from "../components/RecentTransactions";
-import { getExpenseSummary, getExpenses, getUserInfo } from "../utils/api";
+import API, { getExpenseSummary, getExpenses, getUserInfo } from "../utils/api";
+import { getStoredUserId } from "../utils/helpers";
 
 export default function Dashboard({
   userInfo = { fullName: "User" },
@@ -61,7 +62,7 @@ export default function Dashboard({
   });
   const [recentTx, setRecentTx] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem("userId");
+  const userId = getStoredUserId();
 
   useEffect(() => {
     if (userId) {
@@ -137,10 +138,9 @@ export default function Dashboard({
             limit: 500,
           }),
           getUserInfo(userId),
-          fetch(
-            `http://localhost:5000/api/userInfo/${userId}/monthly-settings/${month}/${year}`,
-            { credentials: "include" },
-          ),
+          API.get(`/userInfo/${userId}/monthly-settings/${month}/${year}`, {
+            withCredentials: true,
+          }),
         ]);
 
       console.log(`[Dashboard] Summary response:`, summaryRes.data);
@@ -150,7 +150,7 @@ export default function Dashboard({
       const summary = summaryRes.data.summary || [];
       let byCategory = summaryRes.data.byCategory || [];
       const userInfo = userInfoRes.data.userInfo || {};
-      const monthlySettings = await monthlySettingsRes.json();
+      const monthlySettings = monthlySettingsRes.data;
 
       console.log(`[Dashboard] Monthly settings:`, monthlySettings);
 

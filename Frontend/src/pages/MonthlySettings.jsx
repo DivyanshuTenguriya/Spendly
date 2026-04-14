@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { DollarSign, TrendingUp } from "lucide-react";
-import { formatCurrency } from "../utils/helpers";
+import API from "../utils/api";
+import { formatCurrency, getStoredUserId } from "../utils/helpers";
 
 export default function MonthlySettings() {
   const [monthlyData, setMonthlyData] = useState({
@@ -11,7 +12,8 @@ export default function MonthlySettings() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
-  const userId = localStorage.getItem("userId");
+  // ✅ FIXED USER ID (VERY IMPORTANT)
+  const userId = getStoredUserId();
 
   useEffect(() => {
     fetchMonthlySettings();
@@ -24,12 +26,12 @@ export default function MonthlySettings() {
         return;
       }
 
-      const response = await fetch(
-        `http://localhost:5000/api/userInfo/${userId}`,
-        { credentials: "include" },
-      );
+      const response = await API.get(`/userInfo/${userId}`, {
+        withCredentials: true,
+      });
 
-      const data = await response.json();
+      const data = response.data;
+
       if (data.userInfo) {
         setMonthlyData({
           monthlyIncome: data.userInfo.monthlyIncome || 0,
@@ -59,21 +61,20 @@ export default function MonthlySettings() {
         return;
       }
 
-      const response = await fetch(
-        `http://localhost:5000/api/userInfo/${userId}/monthly-settings`,
+      const response = await API.post(
+        `/userInfo/${userId}/monthly-settings`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            monthlyIncome: income,
-            monthlyExpenseBudget: expenseBudget,
-          }),
+          monthlyIncome: income,
+          monthlyExpenseBudget: expenseBudget,
+        },
+        {
+          withCredentials: true,
         },
       );
 
-      const data = await response.json();
-      if (response.ok) {
+      const data = response.data;
+
+      if (response.status >= 200 && response.status < 300) {
         setMessage("Monthly settings saved successfully!");
         setTimeout(() => setMessage(""), 3000);
       } else {
@@ -116,7 +117,6 @@ export default function MonthlySettings() {
         </div>
       )}
 
-      {/* Monthly Income & Budget */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="card p-6">
           <div className="flex items-center gap-4 mb-4">
@@ -124,20 +124,15 @@ export default function MonthlySettings() {
               <TrendingUp size={24} className="text-green-400" />
             </div>
             <div>
-              <p
-                className="text-xs font-mono uppercase tracking-widest"
-                style={{ color: "var(--text-muted)" }}
-              >
+              <p className="text-xs font-mono uppercase tracking-widest">
                 Monthly Income
               </p>
-              <h3
-                className="font-display text-base font-semibold mt-0.5"
-                style={{ color: "var(--text-primary)" }}
-              >
+              <h3 className="font-display text-base font-semibold mt-0.5">
                 Expected income
               </h3>
             </div>
           </div>
+
           <input
             type="number"
             value={monthlyData.monthlyIncome}
@@ -146,12 +141,7 @@ export default function MonthlySettings() {
             }
             placeholder="0.00"
             step="0.01"
-            className="w-full rounded-xl px-4 py-3 text-lg font-medium focus:outline-none transition-all"
-            style={{
-              backgroundColor: "var(--bg-primary)",
-              color: "var(--text-primary)",
-              borderColor: "var(--border-color)",
-            }}
+            className="w-full rounded-xl px-4 py-3 text-lg font-medium"
           />
         </div>
 
@@ -161,20 +151,15 @@ export default function MonthlySettings() {
               <DollarSign size={24} className="text-orange-400" />
             </div>
             <div>
-              <p
-                className="text-xs font-mono uppercase tracking-widest"
-                style={{ color: "var(--text-muted)" }}
-              >
+              <p className="text-xs font-mono uppercase tracking-widest">
                 Monthly Expense Budget
               </p>
-              <h3
-                className="font-display text-base font-semibold mt-0.5"
-                style={{ color: "var(--text-primary)" }}
-              >
+              <h3 className="font-display text-base font-semibold mt-0.5">
                 Budget for expenses
               </h3>
             </div>
           </div>
+
           <input
             type="number"
             value={monthlyData.monthlyExpenseBudget}
@@ -186,19 +171,14 @@ export default function MonthlySettings() {
             }
             placeholder="0.00"
             step="0.01"
-            className="w-full rounded-xl px-4 py-3 text-lg font-medium focus:outline-none transition-all"
-            style={{
-              backgroundColor: "var(--bg-primary)",
-              color: "var(--text-primary)",
-              borderColor: "var(--border-color)",
-            }}
+            className="w-full rounded-xl px-4 py-3 text-lg font-medium"
           />
         </div>
       </div>
 
       <button
         onClick={handleSaveMonthlySettings}
-        className="w-full px-6 py-3 rounded-xl font-medium transition-all"
+        className="w-full px-6 py-3 rounded-xl font-medium"
         style={{
           backgroundColor: "var(--accent-primary)",
           color: "var(--text-on-accent)",

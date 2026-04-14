@@ -7,7 +7,7 @@ import {
   deleteExpense,
   exportExpenses,
 } from "../utils/api";
-import { formatCurrency, formatDate } from "../utils/helpers";
+import { formatCurrency, formatDate, getStoredUserId } from "../utils/helpers";
 import { categories } from "../data/mockData";
 import { getCategoryMeta } from "../utils/helpers";
 
@@ -336,7 +336,7 @@ export default function Transactions() {
   const [message, setMessage] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const userId = localStorage.getItem("userId");
+  const userId = getStoredUserId();
 
   useEffect(() => {
     fetchTransactions();
@@ -646,8 +646,8 @@ export default function Transactions() {
               Confirm Delete
             </h3>
             <p className="text-sm text-slate-300 mb-6">
-              Are you sure you want to delete the transaction "{deleteTarget.description}"?
-              This action cannot be undone.
+              Are you sure you want to delete the transaction "
+              {deleteTarget.description}"? This action cannot be undone.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
