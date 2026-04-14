@@ -7,7 +7,7 @@ import WeeklyTrendChart from "../components/WeeklyTrendChart";
 import BudgetProgress from "../components/BudgetProgress";
 import RecentTransactions from "../components/RecentTransactions";
 import API, { getExpenseSummary, getExpenses, getUserInfo } from "../utils/api";
-import { getStoredUserId } from "../utils/helpers";
+import { getStoredUserId, normalizeExpensesResponse } from "../utils/helpers";
 
 export default function Dashboard({
   userInfo = { fullName: "User" },
@@ -145,6 +145,7 @@ export default function Dashboard({
 
       console.log(`[Dashboard] Summary response:`, summaryRes.data);
       console.log(`[Dashboard] Transactions response:`, transactionsRes.data);
+      console.log("Expenses API response:", transactionsRes.data);
       console.log(`[Dashboard] UserInfo response:`, userInfoRes.data);
 
       const summary = summaryRes.data.summary || [];
@@ -165,7 +166,7 @@ export default function Dashboard({
         if (item._id === "expense") totalExpenses = item.total;
       });
 
-      const expenses = transactionsRes.data.expenses || [];
+      const expenses = normalizeExpensesResponse(transactionsRes.data);
 
       console.log(
         `[Dashboard] Total: Income=${totalIncome}, Expenses=${totalExpenses}, Transactions count=${expenses.length}`,
@@ -301,7 +302,27 @@ export default function Dashboard({
       }));
 
       setWeeklyData(weeklyArray);
-      setMonthlyData([]);
+
+      const monthlyMap = {};
+      expenses.forEach((tx) => {
+        const date = new Date(tx.date);
+        const monthKey = `${date.getFullYear()}-${String(
+          date.getMonth() + 1,
+        ).padStart(2, "0")}`;
+        if (!monthlyMap[monthKey]) {
+          monthlyMap[monthKey] = { month: monthKey, income: 0, expenses: 0 };
+        }
+        if (tx.type === "income") {
+          monthlyMap[monthKey].income += tx.amount || 0;
+        } else if (tx.type === "expense") {
+          monthlyMap[monthKey].expenses += tx.amount || 0;
+        }
+      });
+
+      const monthlyArray = Object.values(monthlyMap).sort((a, b) =>
+        a.month.localeCompare(b.month),
+      );
+      setMonthlyData(monthlyArray);
     } catch (error) {
       console.error("[Dashboard] Error fetching dashboard data:", error);
       console.error(

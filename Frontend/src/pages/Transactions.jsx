@@ -7,7 +7,12 @@ import {
   deleteExpense,
   exportExpenses,
 } from "../utils/api";
-import { formatCurrency, formatDate, getStoredUserId } from "../utils/helpers";
+import {
+  formatCurrency,
+  formatDate,
+  getStoredUserId,
+  normalizeExpensesResponse,
+} from "../utils/helpers";
 import { categories } from "../data/mockData";
 import { getCategoryMeta } from "../utils/helpers";
 
@@ -339,8 +344,10 @@ export default function Transactions() {
   const userId = getStoredUserId();
 
   useEffect(() => {
-    fetchTransactions();
-  }, [filters]);
+    if (userId) {
+      fetchTransactions();
+    }
+  }, [userId, filters]);
 
   const fetchTransactions = async () => {
     try {
@@ -352,11 +359,12 @@ export default function Transactions() {
       console.log(`[Transactions] Fetching transactions for user ${userId}...`);
       console.log(`[Transactions] Filters:`, filters);
       const response = await getExpenses(userId, filters);
+      const transactionsData = normalizeExpensesResponse(response.data);
       console.log(
-        `[Transactions] Received ${response.data.expenses?.length || 0} transactions`,
+        `[Transactions] Received ${transactionsData.length} transactions`,
       );
       console.log(`[Transactions] Response:`, response.data);
-      setTransactions(response.data.expenses || []);
+      setTransactions(transactionsData);
     } catch (error) {
       setMessage("Error loading transactions");
       console.error("[Transactions] Error:", error);

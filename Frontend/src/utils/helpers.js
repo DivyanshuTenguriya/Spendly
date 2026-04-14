@@ -23,6 +23,11 @@ export const formatDate = (dateStr) => {
   });
 };
 
+export const normalizeExpensesResponse = (responseData) => {
+  const expenses = responseData?.expenses ?? responseData;
+  return Array.isArray(expenses) ? expenses : [];
+};
+
 export const getStoredUserId = () => {
   try {
     const storedUser = JSON.parse(localStorage.getItem("user"));

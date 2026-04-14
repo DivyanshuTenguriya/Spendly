@@ -6,6 +6,7 @@ import {
   formatCurrency,
   pct,
   getStoredUserId,
+  normalizeExpensesResponse,
 } from "../utils/helpers";
 import { getUserInfo, getExpenses } from "../utils/api";
 
@@ -313,7 +314,7 @@ export default function Budgets() {
       ]);
 
       console.log("API RESPONSE:", expensesResponse.data);
-      const expenses = expensesResponse.data.expenses || [];
+      const expenses = normalizeExpensesResponse(expensesResponse.data);
       const userInfo = userInfoResponse.data.userInfo || {};
 
       const spentByCategory = {};

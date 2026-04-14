@@ -11,7 +11,11 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
-import { formatCurrency, getStoredUserId } from "../utils/helpers";
+import {
+  formatCurrency,
+  getStoredUserId,
+  normalizeExpensesResponse,
+} from "../utils/helpers";
 import { getExpenses } from "../utils/api";
 
 export default function Reports() {
@@ -33,14 +37,14 @@ export default function Reports() {
       const startDate = new Date();
       startDate.setMonth(startDate.getMonth() - 6);
 
-      const expenses = await getExpenses(userId, {
+      const expensesResponse = await getExpenses(userId, {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
         limit: 10000,
       });
 
-      console.log("API RESPONSE:", expenses.data);
-      const transactions = expenses.data.expenses || [];
+      console.log("API RESPONSE:", expensesResponse.data);
+      const transactions = normalizeExpensesResponse(expensesResponse.data);
 
       // Process category data for current month
       const currentMonth = new Date().getMonth() + 1;

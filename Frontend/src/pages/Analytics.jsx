@@ -12,7 +12,11 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { formatCurrency, getStoredUserId } from "../utils/helpers";
+import {
+  formatCurrency,
+  getStoredUserId,
+  normalizeExpensesResponse,
+} from "../utils/helpers";
 import { getExpenses } from "../utils/api";
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -64,14 +68,14 @@ export default function Analytics() {
       const startDate = new Date();
       startDate.setMonth(startDate.getMonth() - 6);
 
-      const expenses = await getExpenses(userId, {
+      const expensesResponse = await getExpenses(userId, {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
         limit: 10000,
       });
 
-      console.log("API RESPONSE:", expenses.data);
-      const transactions = expenses.data.expenses || [];
+      console.log("API RESPONSE:", expensesResponse.data);
+      const transactions = normalizeExpensesResponse(expensesResponse.data);
 
       // Process monthly data
       const monthlyMap = {};
